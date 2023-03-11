@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { minusNumber, __addNumber } from "./redux/modules/counterSlice";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+function App(){
+  const dispatch = useDispatch();
+  const [number, setNumber] = useState(0)
+  const globalNumber = useSelector((state)=> state.counter.number)
+
+  const onChangeHandler = (event) => {
+    const { value } = event.target
+    setNumber(+value)
+  }
+
+  const onClickAddNumberHandler = () => {
+    dispatch(__addNumber(number))
+  }
+
+  const onClickMinusNumberHandler = () => {
+    dispatch(minusNumber(number))
+  }
+
+  return(
+    <div>
+      <div>{globalNumber}</div>
+      <input type = 'number' onChange={onChangeHandler} />
+      <button onClick={onClickAddNumberHandler}>추가하기</button>
+      <button onClick={onClickMinusNumberHandler} > 뺴기 </button>
     </div>
-  );
+  )
 }
 
 export default App;
